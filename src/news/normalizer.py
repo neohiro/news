@@ -6,8 +6,34 @@ import hashlib
 from collections import defaultdict
 from datetime import datetime, timezone
 from difflib import SequenceMatcher
+from urllib.parse import urlencode, urlparse, urlunparse, parse_qs
 
 from .sources import NewsItem
+
+
+# Tracking params that don't affect article identity. Strip these before
+# URL dedup so the same article from two different sources collapses.
+_TRACKING_PARAMS = frozenset({
+    "utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content",
+    "fbclid", "gclid", "mc_cid", "mc_eid", "ref", "ref_src",
+    "ref_url", "source", "ncid", "feature", "sr_share",
+})
+
+
+def _canonical_url(url: str) -> str:
+    """Strip tracking params + fragment for dedup. Returns the raw url on
+    any parse error (defensive)."""
+    try:
+        u = urlparse(url)
+        if not u.netloc:
+            return url
+        # Drop tracking query params, keep only order-stable
+        qs = parse_qs(u.query, keep_blank_values=False)
+        qs = {k: v for k, v in qs.items() if k not in _TRACKING_PARAMS}
+        new_query = urlencode(qs, doseq=True) if qs else ""
+        return urlunparse((u.scheme, u.netloc, u.path, u.params, new_query, ""))
+    except (ValueError, AttributeError):
+        return url
 
 
 def normalize(items: list[NewsItem]) -> list[NewsItem]:
@@ -16,7 +42,8 @@ def normalize(items: list[NewsItem]) -> list[NewsItem]:
     unique: list[NewsItem] = []
 
     for item in sorted(items, key=lambda x: x.score or 0, reverse=True):
-        if item.url and item.url in seen_urls:
+        canon = _canonical_url(item.url) if item.url else ""
+        if canon and canon in seen_urls:
             continue
         is_dup = False
         for prev in unique:
@@ -24,8 +51,8 @@ def normalize(items: list[NewsItem]) -> list[NewsItem]:
                 is_dup = True
                 break
         if not is_dup:
-            if item.url:
-                seen_urls.add(item.url)
+            if canon:
+                seen_urls.add(canon)
             unique.append(item)
 
     for item in unique:

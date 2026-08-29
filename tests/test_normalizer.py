@@ -6,7 +6,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent / "src"))
 
 from news.sources import NewsItem
-from news.normalizer import normalize, _similar, _rerank, group_by_topic
+from news.normalizer import normalize, _similar, _rerank, group_by_topic, _canonical_url
 
 
 def mk(title, url=None, score=0, source="x", topics=None):
@@ -20,6 +20,20 @@ class TestNormalizer(unittest.TestCase):
         out = normalize([a, b])
         self.assertEqual(len(out), 1)
         self.assertEqual(out[0].score, 10)
+
+    def test_dedup_by_url_tracking_params_stripped(self):
+        base = "https://nytimes.com/article/12345"
+        a = mk("Article A", url=f"{base}?utm_source=twitter", score=10)
+        b = mk("Article B", url=f"{base}?utm_source=linkedin&fbclid=abc", score=8)
+        out = normalize([a, b])
+        self.assertEqual(len(out), 1)
+        self.assertEqual(out[0].score, 10)
+
+    def test_dedup_by_url_fragment_stripped(self):
+        a = mk("Same", url="https://x.com/a#section", score=10)
+        b = mk("Same", url="https://x.com/a#other", score=8)
+        out = normalize([a, b])
+        self.assertEqual(len(out), 1)
 
     def test_dedup_by_title_similarity(self):
         a = mk("Major AI breakthrough in medical research", url="https://x.com/1", score=10)
