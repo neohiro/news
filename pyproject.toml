@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "neohiro-news"
+version = "0.1.0"
+description = "Public news aggregator with geo-enriched frequency analysis. Zero user data."
+readme = "README.md"
+requires-python = ">=3.12"
+license = { text = "MIT" }
+authors = [{ name = "FrenzyPenguin Media", email = "neohiro@users.noreply.github.com" }]
+keywords = ["news", "rss", "hackernews", "gdelt", "public", "aggregator", "geo"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Internet :: WWW/HTTP :: Dynamic Content :: News/Diary",
+]
+dependencies = [
+    "feedparser>=6.0.10",
+    "requests>=2.31",
+]
+
+[project.urls]
+Homepage = "https://github.com/neohiro/news"
+Issues = "https://github.com/neohiro/news/issues"
+Brain = "https://github.com/neohiro/Brain"
+Architecture = "https://github.com/neohiro/news/blob/main/ARCHITECTURE.md"
+
+[project.scripts]
+neohiro-news = "news.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = "test_*.py"

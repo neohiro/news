@@ -1,0 +1,53 @@
+name: fetch-news
+
+on:
+  schedule:
+    - cron: "0 * * * *"   # hourly
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install
+        run: pip install feedparser requests
+      - name: Fetch all sources
+        env:
+          SERPER_API_KEY: ${{ secrets.SERPER_API_KEY }}
+          NEWS_APIS_BASE: ${{ secrets.NEWS_APIS_BASE }}
+        run: |
+          python scripts/fetch.py --all --output public/feeds --combined
+      - name: Build digest
+        run: |
+          python -c "
+          import sys, json
+          from pathlib import Path
+          sys.path.insert(0, 'src')
+          from news.frequency import build_digest, write_digest
+          all_items = []
+          for d in Path('public/feeds').iterdir():
+              if d.is_dir() and (d / 'latest.json').exists():
+                  data = json.loads((d / 'latest.json').read_text())
+                  all_items.extend(data.get('items', []))
+          write_digest(all_items, 'public/feeds')
+          print(f'wrote digest of {len(all_items)} items')
+          "
+      - name: Commit
+        run: |
+          git config user.name 'neohiro-bot'
+          git config user.email 'neohiro-bot@users.noreply.github.com'
+          git add public/
+          if git diff --cached --quiet; then
+            echo "no changes"
+            exit 0
+          fi
+          git commit -m "chore(news): hourly fetch [skip ci]"
+          git push
