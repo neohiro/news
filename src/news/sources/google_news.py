@@ -20,8 +20,6 @@ import xml.etree.ElementTree as ET
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from urllib.request import Request, urlopen
-from urllib.error import URLError
-from . import BaseSource, register_source
 
 
 UA = "neohiro-news/1.0 (+https://github.com/neohiro/news)"
@@ -246,6 +244,10 @@ def _detect_topics(title: str) -> list[str]:
 
 
 # ─── Register as news source ─────────────────────────────────────────────────
+
+from urllib.error import URLError
+from . import BaseSource, register_source
+
 
 @register_source
 class GoogleNewsSource(BaseSource):

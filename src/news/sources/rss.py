@@ -11,14 +11,15 @@ from . import BaseSource, NewsItem, register_source
 
 
 RSS_FEEDS = [
-    {"url": "https://www.githubstatus.com/../event-stream", "name": "github_status", "topics": ["infrastructure", "devops"]},
-    {"url": "https://www.cloudflare.com/..", "name": "cloudflare_status", "topics": ["infrastructure", "cloud"]},
-    {"url": "https://status.digitalocean.com/..", "name": "digitalocean_status", "topics": ["infrastructure", "cloud"]},
-    {"url": "https://status.huggingface.co/..", "name": "huggingface_status", "topics": ["ai", "llm"]},
-    {"url": "https://status.openai.com/..", "name": "openai_status", "topics": ["ai", "llm"]},
-    {"url": "https://status.cloud.google.com/..", "name": "google_workspace_status", "topics": ["infrastructure", "cloud"]},
-    {"url": "https://status.tailscale.com/..", "name": "tailscale_status", "topics": ["security", "infrastructure"]},
-    # Add more from FEEDS.md
+    {"url": "https://www.githubstatus.com/feed", "name": "github_status", "topics": ["infrastructure", "devops"]},
+    {"url": "https://status.cloudflare.com/feed", "name": "cloudflare_status", "topics": ["infrastructure", "cloud"]},
+    {"url": "https://status.digitalocean.com/feed", "name": "digitalocean_status", "topics": ["infrastructure", "cloud"]},
+    {"url": "https://status.huggingface.co/feed", "name": "huggingface_status", "topics": ["ai", "llm"]},
+    {"url": "https://status.openai.com/feed", "name": "openai_status", "topics": ["ai", "llm"]},
+    {"url": "https://status.cloud.google.com/feed", "name": "google_workspace_status", "topics": ["infrastructure", "cloud"]},
+    {"url": "https://status.tailscale.com/feed", "name": "tailscale_status", "topics": ["security", "infrastructure"]},
+    {"url": "https://aws.amazon.com/blogs/aws/feed/", "name": "aws_news", "topics": ["cloud", "infrastructure"]},
+    {"url": "https://blog.cloud.google.com/atom.xml", "name": "google_cloud_news", "topics": ["cloud", "ai"]},
 ]
 
 UA = "neohiro-news/1.0 (+https://github.com/neohiro/news)"

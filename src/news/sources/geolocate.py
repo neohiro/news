@@ -20,7 +20,6 @@ from datetime import datetime, timezone
 from urllib.request import Request, urlopen
 from urllib.error import URLError
 
-
 from . import BaseSource, NewsItem, register_source
 
 
@@ -213,6 +212,8 @@ def reverse_geocode(lat: float, lon: float) -> str | None:
 
 
 # ─── Source class (for CLI integration) ─────────────────────────────────────
+
+from . import BaseSource, NewsItem, register_source
 
 @register_source
 class GeolocateSource(BaseSource):

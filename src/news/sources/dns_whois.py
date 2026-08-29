@@ -21,7 +21,7 @@ from urllib.request import Request, urlopen
 from urllib.error import URLError
 
 
-from . import BaseSource, NewsItem, register_source
+UA = "neohiro-news/1.0 (+https://github.com/neohiro/news)"
 _APIS_BASE = os.environ.get("NEWS_APIS_BASE", "")
 
 
@@ -188,6 +188,8 @@ def whois_rdap(domain: str) -> WHOISResult:
 
 
 # ─── Source class (for CLI integration) ─────────────────────────────────────
+
+from . import BaseSource, NewsItem, register_source
 
 @register_source
 class DNSSource(BaseSource):
