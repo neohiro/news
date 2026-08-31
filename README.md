@@ -3,9 +3,36 @@
 [![Python 3.12+](https://img.shields.io/badge/python-3.12+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![OpenSource](https://img.shields.io/badge/Public%20Repo-Zero%20User%20Data-success)](README.md)
-[![Dependabot](https://img.shields.io/static/v1?label=Dependabot&message=enabled&color=success&logo=dependabot)](.github/dependabot/dependabot.yml)
+[![Dependabot](https://img.shields.io/static/v1?label=Dependabot&message=enabled&color=success&logo=dependabot)](.github/dependabot.yml)
 
 **Public global intelligence news feed.** RSS, platform status pages, HackerNews, GitHub Status, and more. Runs as a GitHub Actions cron (hourly) — no server required.
+
+## Body Position
+
+```
+   ┌────────────────────────────────────────────────────────────────┐
+   │              Body Anatomy — news is the eyes 👁️                 │
+   │                                                                │
+   │   Outside feeds                                                │
+   │     RSS · GitHub status · platform status pages                │
+   │     HackerNews · Google News · GDELT                           │
+   │              │                                                 │
+   │              ▼                                                 │
+   │   ┌──────────────┐                                             │
+   │   │   news 👁️    │── normalizes, dedups, scores ──►            │
+   │   └──────────────┘                                             │
+   │              │                                                 │
+   │              ▼                                                 │
+   │   ┌──────────────┐                                             │
+   │   │  data/digest │── hourly cron pushes to neohiro/Brain       │
+   │   │   .json      │   which reads it for its Situation object   │
+   │   └──────────────┘                                             │
+   │                                                                │
+   │   news has NO memory of its own. It is the body's EYES:        │
+   │   it looks outward, sees what is there, and reports.          │
+   │                                                                │
+   └────────────────────────────────────────────────────────────────┘
+```
 
 > **Privacy contract**: This repo contains **zero user data, zero private data, zero identifying information**. All output is public. Private intelligence (your monitored domains, your breach status, your personalized briefings) lives in [`neohiro/Brain`](https://github.com/neohiro/Brain).
 
@@ -40,7 +67,7 @@ Superseded by neohiro/Brain (private):
 
 | Source | Type | Update | Notes |
 |--------|------|--------|-------|
-| GitHub Status | RSS | 15 min | github.com/../event-stream |
+| GitHub Status | RSS | 15 min | https://www.githubstatus.com/history.rss |
 | Cloudflare Status | RSS | 15 min | status.cloudflare.com |
 | AWS Health | RSS | 15 min | aws-amazon.com/pages/health |
 | HackerNews API | REST | 60 min | Top 30 stories, keyword-filtered |

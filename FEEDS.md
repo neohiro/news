@@ -7,14 +7,14 @@ Feeds marked **[optional]** require an API key set as a GitHub Actions secret.
 
 | Name | URL | Update | Notes |
 |------|-----|--------|-------|
-| GitHub Status | https://www.githubstatus.com/../event-stream | 15 min | Real-time SSE → polled |
-| Cloudflare Status | https://www.cloudflare.com/../feed | 15 min | Cloudflare status RSS |
-| AWS Health | https://aws-amazon.com/../feed | 15 min | AWS health events |
-| Tailscale Status | https://status.tailscale.com/../feed | 60 min | Tailscale status RSS |
-| Google Workspace | https://status.cloud.google.com/../feed | 15 min | GCP status RSS |
-| DigitalOcean Status | https://status.digitalocean.com/../feed | 15 min | DO status RSS |
-| Hugging Face Status | https://status.huggingface.co/../feed | 60 min | HF status RSS |
-| OpenAI Status | https://status.openai.com/../feed | 15 min | OpenAI status RSS |
+| GitHub Status | https://www.githubstatus.com/history.rss | 15 min | Real-time status page RSS |
+| Cloudflare Status | https://www.cloudflarestatus.com/history.rss | 15 min | Cloudflare status RSS |
+| AWS Health | https://status.aws.amazon.com/rss/all.rss | 15 min | AWS health events RSS |
+| Tailscale Status | https://status.tailscale.com/history.rss | 60 min | Tailscale status RSS |
+| Google Workspace | https://status.cloud.google.com/incidents.rss | 15 min | GCP status RSS |
+| DigitalOcean Status | https://status.digitalocean.com/history.rss | 15 min | DO status RSS |
+| Hugging Face Status | https://status.huggingface.co/history.rss | 60 min | HF status RSS |
+| OpenAI Status | https://status.openai.com/history.rss | 15 min | OpenAI status RSS |
 
 ## REST / API sources (no auth)
 
